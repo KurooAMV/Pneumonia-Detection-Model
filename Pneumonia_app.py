@@ -3,13 +3,11 @@ import streamlit as st
 import random
 import numpy as np 
 import matplotlib.pyplot as plt
-# import pandas as pd
 import seaborn as sns
 from sklearn.metrics import classification_report, confusion_matrix, roc_curve, roc_auc_score
-# from tensorflow.compat.v1.keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
 import keras
-from keras_preprocessing.image import ImageDataGenerator
+from keras_preprocessing.image.image_data_generator import ImageDataGenerator
 import time
 
 def timeInFormat(startTime,endTime):
@@ -125,13 +123,13 @@ channels = 1
 mode = 'grayscale'
 
 print("Generating Data Set...\n")
-trainDataGen = ImageDataGenerator(rescale=1.0/255.0, 
+trainDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0/255.0, 
                                   shear_range = 0.2, 
                                   zoom_range = 0.2, 
                                   horizontal_flip = True 
                                   )
-valDataGen = ImageDataGenerator(rescale = 1.0/255.0)
-testDataGen = ImageDataGenerator(rescale = 1.0/255.0)
+valDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale = 1.0/255.0)
+testDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale = 1.0/255.0)
 
 trainGenerator = trainDataGen.flow_from_directory(directory=trainPath,
                                                   target_size = (dimen,dimen),
