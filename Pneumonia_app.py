@@ -131,39 +131,31 @@ trainDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0/255.0
 valDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale = 1.0/255.0)
 testDataGen = tf.keras.preprocessing.image.ImageDataGenerator(rescale = 1.0/255.0)
 
-if not os.path.exists(trainPath):
-    st.error(f"Training data directory does not exist: {trainPath}")
-else:
-    trainGenerator = trainDataGen.flow_from_directory(directory=trainPath,
-                                                    target_size = (dimen,dimen),
-                                                    batch_size = batchS,
-                                                    color_mode = mode,
-                                                    class_mode = 'binary',
-                                                    seed = 42
-                                                    )
-if not os.path.exists(valPath):
-    st.error(f"Validation data does not exists: {valPath}")
-else:
-    valGenerator = valDataGen.flow_from_directory(directory = valPath,
+trainGenerator = trainDataGen.flow_from_directory(directory=trainPath,
+                                                  target_size = (dimen,dimen),
+                                                  batch_size = batchS,
+                                                  color_mode = mode,
+                                                  class_mode = 'binary',
+                                                  seed = 42
+                                                  )
+
+valGenerator = valDataGen.flow_from_directory(directory = valPath,
+                                              target_size = (dimen,dimen),
+                                              batch_size = batchS,
+                                              class_mode = 'binary',
+                                              color_mode = mode,
+                                              shuffle = False,
+                                              seed = 42
+                                              )
+
+testGenerator = testDataGen.flow_from_directory(directory = testPath,
                                                 target_size = (dimen,dimen),
                                                 batch_size = batchS,
                                                 class_mode = 'binary',
                                                 color_mode = mode,
-                                                shuffle = False,
+                                                shuffle  = False,
                                                 seed = 42
                                                 )
-
-if not os.path.exists(testPath):
-    st.error(f"Testing data does not exist: {testPath}")
-else:
-    testGenerator = testDataGen.flow_from_directory(directory = testPath,
-                                                    target_size = (dimen,dimen),
-                                                    batch_size = batchS,
-                                                    class_mode = 'binary',
-                                                    color_mode = mode,
-                                                    shuffle  = False,
-                                                    seed = 42
-                                                    )
 
 testGenerator.reset()
 st.write("### Building the CNN Model")
